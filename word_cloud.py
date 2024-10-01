@@ -21,7 +21,8 @@ def generate_text(text):
     comment_words += " ".join(tokens)+" "
     return comment_words
 
-def generate_word_cloud(comment_words, language):
+def generate_word_cloud(text, language):
+    comment_words = generate_text(text)
     if language == 'french':
         stopwords = french_stopwords
     else:
@@ -31,14 +32,8 @@ def generate_word_cloud(comment_words, language):
                     background_color ='white',
                     stopwords = stopwords, mask = pic,
                     min_font_size = 10).generate(comment_words)
-    plt.figure(figsize = (10, 10), facecolor = 'white', edgecolor='blue') 
+    plot = plt.figure(figsize = (10, 10), facecolor = 'white', edgecolor='blue') 
     plt.imshow(wordcloud)
     plt.axis("off") 
-    plt.tight_layout(pad = 0) 
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    img_str = base64.b64encode(buffer.read()).decode('utf-8')
-    buffer.close()
-    
-    return img_str
+    plt.tight_layout(pad = 0)
+    return plot
